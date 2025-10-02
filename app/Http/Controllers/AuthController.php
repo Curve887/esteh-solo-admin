@@ -17,27 +17,31 @@ class AuthController extends Controller
 
         public function login(Request $request)
     {
-        // Validasi input
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string|min:6',
         ]);
 
-        // Cek apakah email & password benar
-        if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
-            // regenerate session biar aman dari session fixation
-            $request->session()->regenerate();
-
-            return redirect()->route('dashboard');
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
 
-        // Jika gagal login, kirim pesan error
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->withInput();
+        $user = \App\Models\User::where('email', $request->email)->first();
+
+        if (!$user || !\Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['email' => 'Email atau password salah'])->withInput();
+        }
+
+        // Hanya role admin yang boleh login ke web
+        if ($user->role !== 'admin') {
+            return back()->withErrors(['email' => 'Akses ditolak! Hanya admin yang bisa login ke dashboard'])->withInput();
+        }
+
+        // Login admin
+        auth()->login($user);
+
+        return redirect()->route('dashboard');
     }
-
-
 
     public function logout(Request $request)
     {

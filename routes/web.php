@@ -13,15 +13,23 @@ Route::get('/', function () {
 
 //////////////////////////////
 // Route Authentication
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register')->middleware('guest');
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+    Route::get('/login', [AuthController::class, 'showLoginForm'])
+        ->name('login')
+        ->middleware('guest');
+    Route::post('/login', [AuthController::class, 'login']);
+
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])
+        ->name('register')
+        ->middleware('guest');
+    Route::post('/register', [AuthController::class, 'register']);
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout')
+        ->middleware('auth');
 
 //////////////////////////////
 // Protected Routes (Harus Login)
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
