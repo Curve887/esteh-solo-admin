@@ -161,7 +161,7 @@
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="{{ url('products') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
+                                <i class="nav-icon fas fa-boxes"></i>
                                 <p>
                                     Produk
                                 </p>
@@ -232,7 +232,6 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('assets/vendor/adminlte') }}/dist/js/adminlte.min.js?v=3.2.0"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('assets/vendor/adminlte') }}/dist/js/demo.js"></script>
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
         integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
         data-cf-beacon='{"rayId":"987b4dd1ff5884b2","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.9.1","token":"2437d112162f4ec4b63c3ca0eb38fb20"}'
@@ -263,8 +262,6 @@
             });
         });
     </script>
-
-
     @yield('js')
 </body>
 
