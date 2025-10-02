@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('admin.user.index', compact('users'))
-            ->with('page_title', 'Manajemen Akun');
+            ->with('page_title', 'Manage Accounts');
     }
     /**
      * Show the form for creating a new resource.
