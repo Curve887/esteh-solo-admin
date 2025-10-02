@@ -1,39 +1,82 @@
-<form method="POST" action="{{ route('login') }}">
-    @csrf
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
 
-    <!-- Email -->
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input id="email" type="email" name="email" 
-               class="form-control @error('email') is-invalid @enderror"
-               value="{{ old('email') }}" required autofocus>
-        @error('email')
-            <span class="invalid-feedback">{{ $message }}</span>
-        @enderror
-    </div>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('assets/vendor/adminlte') }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- AdminLTE -->
+  <link rel="stylesheet" href="{{ asset('assets/vendor/adminlte') }}/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
 
-    <!-- Password -->
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" type="password" name="password"
-               class="form-control @error('password') is-invalid @enderror"
-               required>
-        @error('password')
-            <span class="invalid-feedback">{{ $message }}</span>
-        @enderror
-    </div>
+<div class="login-box">
+  <!-- Logo -->
+  <div class="login-logo">
+    <a href="#"><b>ES</b> Teh Solo</a>
+  </div>
 
-    <!-- Remember Me -->
-    <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
-        <label class="form-check-label" for="remember_me">Remember me</label>
-    </div>
+  <!-- Card -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Silakan login untuk melanjutkan</p>
 
-    <!-- Submit -->
-    <button type="submit" class="btn btn-primary btn-block">Login</button>
+      <form method="POST" action="{{ route('login') }}">
+        @csrf
 
-    <div class="text-center mt-3">
+        <!-- Email -->
+        <div class="input-group mb-3">
+          <input id="email" type="email" name="email" 
+                 class="form-control @error('email') is-invalid @enderror"
+                 value="{{ old('email') }}" required autofocus placeholder="Email">
+          <div class="input-group-append">
+            <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+          </div>
+          @error('email')
+              <span class="invalid-feedback d-block">{{ $message }}</span>
+          @enderror
+        </div>
+
+        <!-- Password -->
+        <div class="input-group mb-3">
+          <input id="password" type="password" name="password"
+                 class="form-control @error('password') is-invalid @enderror"
+                 required placeholder="Password">
+          <div class="input-group-append">
+            <div class="input-group-text"><span class="fas fa-lock"></span></div>
+          </div>
+          @error('password')
+              <span class="invalid-feedback d-block">{{ $message }}</span>
+          @enderror
+        </div>
+
+        <!-- Row with Remember & Button -->
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember" name="remember">
+              <label for="remember">Remember Me</label>
+            </div>
+          </div>
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+          </div>
+        </div>
+      </form>
+
+      {{-- <div class="text-center mt-3">
         <span>Belum punya akun?</span>
         <a href="{{ route('register') }}">Register</a>
+      </div> --}}
     </div>
-</form>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="{{ asset('assets/vendor/adminlte') }}/plugins/jquery/jquery.min.js"></script>
+<script src="{{ asset('assets/vendor/adminlte') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('assets/vendor/adminlte') }}/dist/js/adminlte.min.js"></script>
+</body>
+</html>
