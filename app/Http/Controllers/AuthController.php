@@ -15,27 +15,28 @@ class AuthController extends Controller
         return view('admin.auth.login'); // ini login.blade.php
     }
 
-    public function login(Request $request)
+        public function login(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string|min:6',
         ]);
 
-        // ambil user
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return back()->withErrors([
-                'email' => 'Email atau password salah.',
-            ])->onlyInput('email');
+            return back()->withErrors(['email' => 'Invalid email or password'])->withInput();
         }
 
-        // loginkan user
-        Auth::login($user, $request->boolean('remember'));
-
-        return redirect()->intended('dashboard'); // ke dashboard
+        
+        auth()->login($user);
+        return redirect()->route('dashboard');
     }
+
 
     public function logout(Request $request)
     {

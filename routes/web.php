@@ -6,37 +6,22 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', function () {
-    return view('admin.dashboard');
+    return redirect()->route('login'); // kalau buka root langsung arahkan ke login
 });
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-// Route::get('/add-user', [DashboardController::class, 'user'])->name('add-user');
-
-
-
 
 //////////////////////////////
 // Route Authentication
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register')->middleware('guest');
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 //////////////////////////////
-//  Route User Controller
-Route::resource('users', UserController::class);
+// Protected Routes (Harus Login)
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', UserController::class);
+});
 
